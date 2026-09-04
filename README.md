@@ -509,7 +509,13 @@ Transações:
 11 transações
 ```
 
-Esse cenário também foi validado manualmente contra a aplicação executando em Docker utilizando requisições `curl` realmente paralelas.
+Esse cenário também foi validado manualmente contra a aplicação executando uma versão simplificada do teste de integração, implementado na classe ConcurrencyDemo, executando os comandos: 
+```bash
+javac src/main/java/ConcurrencyDemo.java
+
+java -cp src/main/java/ ConcurrencyDemo
+```
+
 
 ---
 
@@ -835,6 +841,13 @@ src/test/java/com/walletapi/
 | API Key                   | Autenticação simples entre serviços para o contexto do desafio |
 
 ---
+
+# 🧠 O que faria diferente se tivesse mais tempo
+
+Usar o lock no DB pessimista sem dúvida é a opção mais onerosa em termos de performance, e riscos de esgotamento de pool de conexões e deadlocks. Seria interessante testar outras soluções:
+* Usar Lock otimista , tendo em vista que o DB ja tem um CHECK (balance >= 0)
+* Verificar se o lock pessimista funciona em Databases particionados/sharded
+
 
 # 🚫 Fora do escopo
 
