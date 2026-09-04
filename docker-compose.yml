@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: wallet-api-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: wallet_api
+      POSTGRES_USER: wallet_api
+      POSTGRES_PASSWORD: wallet_api
+    ports:
+      - "5432:5432"
+    volumes:
+      - wallet_api_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wallet_api -d wallet_api"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: wallet-api-app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/wallet_api
+      DB_USERNAME: wallet_api
+      DB_PASSWORD: wallet_api
+      API_KEY: ${API_KEY:-changeme-local-dev-key}
+    ports:
+      - "8081:8080"
+
+volumes:
+  wallet_api_pgdata:
