@@ -822,8 +822,8 @@ src/test/java/com/walletapi/
 
 | Decisão                   | Motivo                                                         |
 | ------------------------- | -------------------------------------------------------------- |
-| PostgreSQL                | Consistência transacional e suporte a constraints              |
-| Lock pessimista por linha | Evitar condições de corrida em carteiras com alta concorrência |
+| PostgreSQL                | Consistência transacional e constraints                        |
+| Lock pessimista por linha | Estratégia mais robusta para concorrência de transações        |
 | Idempotency Key           | Permitir retries seguros e evitar operações duplicadas         |
 | Constraint `UNIQUE`       | Garantia adicional de idempotência no banco                    |
 | `CHECK (balance >= 0)`    | Proteção contra saldo negativo no banco                        |
@@ -831,6 +831,7 @@ src/test/java/com/walletapi/
 | Flyway                    | Controle explícito e versionado do schema                      |
 | JPA Specification         | Filtros dinâmicos no extrato                                   |
 | Testcontainers            | Testes de integração utilizando PostgreSQL real                |
+| ConcurrencyDemo           | Classe de teste de integração simplificad para execução rápida |
 | API Key                   | Autenticação simples entre serviços para o contexto do desafio |
 
 ---
@@ -840,11 +841,8 @@ src/test/java/com/walletapi/
 Os seguintes recursos foram intencionalmente deixados fora do desafio:
 
 * Carteiras com múltiplas moedas
-* Câmbio (FX)
-* Cálculo de juros
+* Câmbio
 * Autenticação de usuários com JWT/OAuth
-* Transações agendadas
-* Chargebacks
 * Frontend/UI
 
 ---
